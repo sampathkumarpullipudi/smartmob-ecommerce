@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Successful - SmartMob</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h2>SMARTMOB</h2>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="products.html">Mobiles</a>
+        </nav>
+    </header>
+
+    <section class="success-section">
+
+        <div class="success-box">
+
+            <div class="success-icon">✓</div>
+
+            <h1>Order Placed Successfully!</h1>
+
+            <p>Thank you for shopping with SmartMob.</p>
+
+            <h3>Your Order ID:</h3>
+
+            <p id="order-id"></p>
+
+            <p>Your order has been saved successfully.</p>
+
+            <a href="my-orders.html" class="home-btn">
+    View My Orders
+</a>
+
+<a href="index.html" class="home-btn">
+    Continue Shopping
+</a>
+
+        </div>
+
+    </section>
+
+    <footer>
+        <p>© 2026 SmartMob. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+
+        const params = new URLSearchParams(
+            window.location.search
+        );
+
+        document.getElementById("order-id").textContent =
+            params.get("orderId") || "Not available";
+
+    </script>
+
+</body>
+</html>
+

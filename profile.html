@@ -1,0 +1,381 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile - SmartMob</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-menu-btn {
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            border: 2px solid white;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-menu-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 55px;
+            right: 0;
+            min-width: 180px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .profile-dropdown-menu.show {
+            display: block;
+        }
+
+        .profile-dropdown-menu a {
+            display: block;
+            padding: 13px 16px;
+            color: #172554;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .profile-dropdown-menu a:hover {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR -->
+
+    <header>
+
+        <h2>SMARTMOB</h2>
+
+        <nav>
+
+            <a href="index.html">Home</a>
+
+            <a href="products.html">Mobiles</a>
+
+            <div class="profile-dropdown">
+
+                <button
+                    type="button"
+                    id="profile-menu-btn"
+                    class="profile-menu-btn"
+                    aria-label="Open profile menu"
+                    aria-expanded="false">
+
+                    <img
+                        id="header-profile-picture"
+                        src="https://i.pravatar.cc/100?img=12"
+                        alt="User Profile">
+
+                </button>
+
+                <div
+                    class="profile-dropdown-menu"
+                    id="profile-dropdown-menu">
+
+                    <a href="profile.html">My Profile</a>
+                    <a href="my-orders.html">My Orders</a>
+                    <a href="wishlist.html">Wishlist</a>
+                    <a href="cart.html">Cart</a>
+                    <a href="admin-login.html">Admin</a>
+                    <a href="#" id="dropdown-logout">Logout</a>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- PROFILE SECTION -->
+
+    <section class="auth-section">
+
+        <div class="auth-box">
+
+            <h1>My Profile</h1>
+
+            <div class="profile-details">
+
+                <p>
+                    <strong>Name:</strong>
+                    <span id="profile-name"></span>
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    <span id="profile-email"></span>
+                </p>
+
+            </div>
+
+
+            <!-- EDIT PROFILE PICTURE BUTTON -->
+
+            <div style="text-align: center; margin: 15px 0 20px;">
+
+                <a href="profile-picture.html"
+                   style="
+                       display: inline-block !important;
+                       background-color: #2563eb !important;
+                       color: #ffffff !important;
+                       padding: 12px 20px !important;
+                       border-radius: 7px !important;
+                       text-decoration: none !important;
+                       font-size: 14px !important;
+                       font-weight: 600 !important;
+                       line-height: 20px !important;
+                       visibility: visible !important;
+                       opacity: 1 !important;
+                   ">
+
+                    <span style="color: white !important; font-size: 14px !important;">
+                        Edit Profile Picture
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <!-- EDIT PROFILE BUTTON -->
+
+            <button type="button" id="edit-profile-btn">
+                Edit Profile
+            </button>
+
+
+            <!-- EDIT PROFILE FORM -->
+
+            <form id="edit-profile-form" style="display:none;">
+
+                <label for="edit-name">Full Name</label>
+
+                <input
+                    type="text"
+                    id="edit-name"
+                    required>
+
+                <label for="edit-email">Email Address</label>
+
+                <input
+                    type="email"
+                    id="edit-email"
+                    required>
+
+                <button type="submit">
+                    Save Changes
+                </button>
+
+                <button type="button" id="cancel-edit-btn">
+                    Cancel
+                </button>
+
+            </form>
+
+            <p id="profile-message"></p>
+
+
+            <!-- SAVED DELIVERY ADDRESSES -->
+
+            <div class="saved-address-section">
+
+                <h2>My Delivery Addresses</h2>
+
+                <div id="saved-address-list"></div>
+
+                <h3>Add New Address</h3>
+
+                <form id="address-form">
+
+                    <input
+                        type="text"
+                        id="address-name"
+                        placeholder="Full Name"
+                        required>
+
+                    <input
+                        type="tel"
+                        id="address-phone"
+                        placeholder="10-digit Mobile Number"
+                        pattern="[0-9]{10}"
+                        maxlength="10"
+                        required>
+
+                    <textarea
+                        id="address-line"
+                        placeholder="House Number and Street"
+                        required></textarea>
+
+                    <input
+                        type="text"
+                        id="address-city"
+                        placeholder="City"
+                        required>
+
+                    <input
+                        type="text"
+                        id="address-state"
+                        placeholder="State"
+                        required>
+
+                    <input
+                        type="text"
+                        id="address-pincode"
+                        placeholder="6-digit PIN Code"
+                        pattern="[0-9]{6}"
+                        maxlength="6"
+                        required>
+
+                    <button type="submit">
+                        Save Address
+                    </button>
+
+                </form>
+
+                <p id="address-message"></p>
+
+            </div>
+
+
+            <!-- LOGOUT -->
+
+            <button id="logout-btn" type="button">
+                Logout
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>© 2026 SmartMob. All Rights Reserved.</p>
+
+    </footer>
+
+
+    <!-- EXISTING PROFILE JAVASCRIPT -->
+
+    <script src="js/profile.js"></script>
+
+    <!-- PROFILE PICTURE JAVASCRIPT -->
+
+    <script src="js/profile-picture.js"></script>
+
+
+    <!-- PROFILE DROPDOWN JAVASCRIPT -->
+
+    <script>
+
+        (function () {
+
+            const profileMenuBtn =
+                document.getElementById("profile-menu-btn");
+
+            const profileDropdownMenu =
+                document.getElementById("profile-dropdown-menu");
+
+            if (profileMenuBtn && profileDropdownMenu) {
+
+                profileMenuBtn.addEventListener("click", function(event) {
+
+                    event.stopPropagation();
+
+                    const isOpen =
+                        profileDropdownMenu.classList.toggle("show");
+
+                    profileMenuBtn.setAttribute(
+                        "aria-expanded",
+                        String(isOpen)
+                    );
+
+                });
+
+                document.addEventListener("click", function(event) {
+
+                    if (!event.target.closest(".profile-dropdown")) {
+
+                        profileDropdownMenu.classList.remove("show");
+
+                        profileMenuBtn.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+
+                    }
+
+                });
+
+            }
+
+
+            // LOGOUT
+
+            const dropdownLogout =
+                document.getElementById("dropdown-logout");
+
+            if (dropdownLogout) {
+
+                dropdownLogout.addEventListener("click", function(event) {
+
+                    event.preventDefault();
+
+                    localStorage.removeItem("loggedInUser");
+
+                    window.location.href = "login.html";
+
+                });
+
+            }
+
+        })();
+
+    </script>
+    <script src="js/profile-picture.js"></script>
+
+</body>
+
+</html>

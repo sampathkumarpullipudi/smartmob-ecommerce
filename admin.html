@@ -1,0 +1,549 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - SmartMob</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* ==================================
+           ADMIN PROFILE DROPDOWN
+        ================================== */
+
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-menu-btn {
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            border: 2px solid white;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-menu-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 55px;
+            right: 0;
+            min-width: 190px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .profile-dropdown-menu.show {
+            display: block;
+        }
+
+        .profile-dropdown-menu a {
+            display: block;
+            padding: 13px 16px;
+            color: #172554;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .profile-dropdown-menu a:hover {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        @media (max-width: 768px) {
+            header nav {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ==================================
+         ADMIN HEADER
+    ================================== -->
+
+    <header>
+
+        <h2>SMARTMOB ADMIN</h2>
+
+        <nav>
+
+            <!-- Admin Profile Dropdown -->
+            <div class="profile-dropdown">
+
+    <button
+        type="button"
+        id="profile-menu-btn"
+        class="profile-menu-btn"
+        aria-label="Open admin menu"
+        aria-expanded="false">
+
+        <img
+            id="header-profile-picture"
+            src="https://i.pravatar.cc/100?img=12"
+            alt="Admin Profile">
+
+    </button>
+
+    <div
+        class="profile-dropdown-menu"
+        id="profile-dropdown-menu">
+
+        <a href="admin.html">Dashboard</a>
+
+        <a href="admin-orders.html">Manage Orders</a>
+
+        <a href="index.html">View Website</a>
+
+        <a href="admin-profile-picture.html">Edit Profile Picture</a>
+
+        <a href="#" id="dropdown-logout">Logout</a>
+
+    </div>
+
+</div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ==================================
+         ADMIN DASHBOARD
+    ================================== -->
+
+    <section class="admin-section">
+
+        <h1>Admin Dashboard</h1>
+
+        <p>Manage your products and sales here.</p>
+
+
+        <!-- ==================================
+             SALES OVERVIEW
+        ================================== -->
+
+        <div class="admin-statistics">
+
+            <h2>Sales Overview</h2>
+
+
+            <!-- DATE FILTER -->
+
+            <div class="sales-date-filter">
+
+                <label for="sales-period">Select Period:</label>
+
+                <select id="sales-period">
+
+                    <option value="all">All Time</option>
+                    <option value="today">Today</option>
+                    <option value="7days">Last 7 Days</option>
+                    <option value="30days">Last 30 Days</option>
+                    <option value="month">This Month</option>
+                    <option value="year">This Year</option>
+                    <option value="custom">Custom Date Range</option>
+
+                </select>
+
+
+                <!-- CUSTOM DATE RANGE -->
+
+                <div id="custom-date-range" style="display:none;">
+
+                    <label for="sales-from-date">From:</label>
+
+                    <input type="date" id="sales-from-date">
+
+                    <label for="sales-to-date">To:</label>
+
+                    <input type="date" id="sales-to-date">
+
+                    <button type="button" id="apply-date-filter">
+                        Apply
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATISTICS CARDS -->
+
+            <div class="statistics-grid">
+
+                <div class="stat-card">
+                    <h3>Total Revenue</h3>
+                    <p id="total-revenue">₹0</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Total Orders</h3>
+                    <p id="total-orders">0</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Pending Orders</h3>
+                    <p id="pending-orders">0</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Delivered Orders</h3>
+                    <p id="delivered-orders">0</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Cancelled Orders</h3>
+                    <p id="cancelled-orders">0</p>
+                </div>
+
+            </div>
+
+
+            <!-- BEST SELLING PRODUCTS -->
+
+            <div class="best-selling-section">
+
+                <h2>Best-Selling Products</h2>
+
+                <button
+                    type="button"
+                    class="report-toggle-btn"
+                    data-target="best-selling-content"
+                    aria-expanded="false">
+
+                    View Best-Selling Products ▼
+
+                </button>
+
+                <div id="best-selling-content" hidden>
+
+                    <div id="best-selling-list"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SALES REVENUE REPORT -->
+
+            <div class="sales-report-section">
+
+                <h2>Sales Revenue Report</h2>
+
+                <button
+                    type="button"
+                    class="report-toggle-btn"
+                    data-target="sales-chart-content"
+                    aria-expanded="false">
+
+                    View Sales Revenue ▼
+
+                </button>
+
+                <div id="sales-chart-content" hidden>
+
+                    <div class="sales-chart-container">
+
+                        <canvas id="sales-chart"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- EXPORT SALES REPORT -->
+
+            <div class="export-sales-section">
+
+                <button
+                    type="button"
+                    id="export-sales-btn">
+
+                    Export Sales Report
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================
+             ADD / EDIT PRODUCT FORM
+        ================================== -->
+
+        <div class="admin-form">
+
+            <h2 id="form-heading">Add New Product</h2>
+
+            <form id="product-form">
+
+
+                <!-- PRODUCT NAME -->
+
+                <label for="mobile-name">Product Name</label>
+
+                <input
+                    type="text"
+                    id="mobile-name"
+                    placeholder="Enter product name"
+                    required>
+
+
+                <!-- BRAND -->
+
+                <label for="mobile-brand">Brand Name</label>
+
+                <input
+                    type="text"
+                    id="mobile-brand"
+                    placeholder="Enter brand name"
+                    required>
+
+
+                <!-- PRODUCT CATEGORY -->
+
+                <label for="mobile-category">Product Category</label>
+
+                <select id="mobile-category" required>
+
+                    <option value="">Select Category</option>
+
+                    <option value="Mobiles">Mobiles</option>
+
+                    <option value="Earbuds">Earbuds</option>
+
+                    <option value="Headphones">Headphones</option>
+
+                    <option value="Chargers">Chargers</option>
+
+                    <option value="Power Banks">Power Banks</option>
+
+                    <option value="Mobile Accessories">Mobile Accessories</option>
+
+                    <option value="Smartwatches">Smartwatches</option>
+
+                    <option value="Speakers">Speakers</option>
+
+                </select>
+
+
+                <!-- SELLING PRICE -->
+
+                <label for="mobile-price">Selling Price (₹)</label>
+
+                <input
+                    type="number"
+                    id="mobile-price"
+                    placeholder="Enter selling price"
+                    min="1"
+                    required>
+
+
+                <!-- ORIGINAL PRICE -->
+
+                <label for="mobile-old-price">Original Price (₹)</label>
+
+                <input
+                    type="number"
+                    id="mobile-old-price"
+                    placeholder="Enter original price"
+                    min="1"
+                    required>
+
+
+                <!-- PRODUCT IMAGE -->
+
+                <label for="mobile-image">Product Image URL</label>
+
+                <input
+                    type="text"
+                    id="mobile-image"
+                    placeholder="Enter product image URL"
+                    required>
+
+
+                <!-- SUBMIT BUTTON -->
+
+                <button type="submit" id="save-button">
+                    Add Product
+                </button>
+
+
+                <!-- CANCEL EDIT -->
+
+                <button
+                    type="button"
+                    id="cancel-edit"
+                    style="display:none;">
+
+                    Cancel Edit
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ==================================
+             MANAGE PRODUCTS
+        ================================== -->
+
+        <div class="admin-products">
+
+            <h2>Manage Products</h2>
+
+            <div id="admin-product-list"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================
+         FOOTER
+    ================================== -->
+
+    <footer>
+
+        <p>© 2026 SmartMob. All Rights Reserved.</p>
+
+    </footer>
+
+
+    <!-- ==================================
+         ADMIN AUTHENTICATION
+    ================================== -->
+
+    <script>
+
+        if (localStorage.getItem("adminLoggedIn") === "true") {
+
+            const script = document.createElement("script");
+
+            script.src = "js/admin.js";
+
+            document.body.appendChild(script);
+
+        } else {
+
+            window.location.replace("admin-login.html");
+
+        }
+
+    </script>
+
+
+    <!-- ==================================
+         ADMIN PROFILE DROPDOWN JAVASCRIPT
+    ================================== -->
+
+    <script>
+
+        (function () {
+
+            const profileMenuBtn =
+                document.getElementById("profile-menu-btn");
+
+            const profileDropdownMenu =
+                document.getElementById("profile-dropdown-menu");
+
+
+            // Open and close dropdown
+            if (profileMenuBtn && profileDropdownMenu) {
+
+                profileMenuBtn.addEventListener("click", function(event) {
+
+                    event.stopPropagation();
+
+                    const isOpen =
+                        profileDropdownMenu.classList.toggle("show");
+
+                    profileMenuBtn.setAttribute(
+                        "aria-expanded",
+                        String(isOpen)
+                    );
+
+                });
+
+
+                // Close when clicking outside
+                document.addEventListener("click", function(event) {
+
+                    if (!event.target.closest(".profile-dropdown")) {
+
+                        profileDropdownMenu.classList.remove("show");
+
+                        profileMenuBtn.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+
+                    }
+
+                });
+
+            }
+
+
+            // Admin Logout
+            const dropdownLogout =
+                document.getElementById("dropdown-logout");
+
+            if (dropdownLogout) {
+
+                dropdownLogout.addEventListener("click", function(event) {
+
+                    event.preventDefault();
+
+                    localStorage.removeItem("adminLoggedIn");
+
+                    window.location.href = "admin-login.html";
+
+                });
+
+            }
+
+        })();
+
+    </script>
+<script src="js/admin-profile-picture.js"></script>
+</body>
+
+</html>

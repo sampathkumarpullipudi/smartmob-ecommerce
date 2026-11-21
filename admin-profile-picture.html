@@ -1,0 +1,635 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Admin Profile Picture - SmartMob</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+
+        /* ==================================
+           ADMIN PROFILE DROPDOWN
+        ================================== */
+
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-menu-btn {
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            border: 2px solid white;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-menu-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 55px;
+            right: 0;
+            min-width: 190px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .profile-dropdown-menu.show {
+            display: block;
+        }
+
+        .profile-dropdown-menu a {
+            display: block;
+            padding: 13px 16px;
+            color: #172554;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .profile-dropdown-menu a:hover {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+
+        /* ==================================
+           ADMIN PICTURE EDITOR
+        ================================== */
+
+        .admin-picture-section {
+            max-width: 750px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .admin-picture-section h1 {
+            text-align: center;
+            color: #172554;
+            margin-bottom: 30px;
+        }
+
+        .admin-picture-section h3 {
+            color: #172554;
+            margin-bottom: 15px;
+        }
+
+
+        /* ==================================
+           CURRENT PICTURE PREVIEW
+        ================================== */
+
+        .admin-current-picture {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .admin-current-picture img {
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #2563eb;
+        }
+
+        .admin-current-picture p {
+            margin-top: 12px;
+            color: #475569;
+            font-size: 14px;
+        }
+
+
+        /* ==================================
+           DEFAULT AVATARS
+        ================================== */
+
+        .admin-avatar-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .admin-avatar-option {
+            width: 90px;
+            height: 90px;
+            padding: 0;
+            margin: auto;
+            border: 3px solid transparent;
+            border-radius: 50%;
+            background: none;
+            cursor: pointer;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .admin-avatar-option img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .admin-avatar-option:hover {
+            transform: scale(1.08);
+        }
+
+        .admin-avatar-option.selected {
+            border-color: #2563eb;
+        }
+
+
+        /* ==================================
+           UPLOAD PICTURE SECTION
+        ================================== */
+
+        .admin-upload-section {
+            margin: 30px 0;
+            padding: 22px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .admin-upload-section p {
+            color: #475569;
+            font-size: 14px;
+        }
+
+        #admin-upload-picture {
+            display: block;
+            width: 100%;
+            max-width: 340px;
+            margin: 18px auto 5px;
+            padding: 12px;
+            background: white;
+            border: 2px dashed #2563eb;
+            border-radius: 10px;
+            color: #172554;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        #admin-upload-picture::file-selector-button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 7px;
+            margin-right: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        #admin-upload-picture::file-selector-button:hover {
+            background: #1d4ed8;
+        }
+
+
+        /* ==================================
+           SAVE BUTTON
+        ================================== */
+
+        #admin-save-picture {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        #admin-save-picture:hover {
+            background: #1d4ed8;
+        }
+
+
+        /* ==================================
+           BACK TO DASHBOARD
+        ================================== */
+
+        .admin-back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #2563eb !important;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .admin-back-link:hover {
+            text-decoration: underline;
+        }
+
+
+        /* ==================================
+           MOBILE RESPONSIVE
+        ================================== */
+
+        @media (max-width: 600px) {
+
+            .admin-picture-section {
+                margin: 20px 12px;
+                padding: 20px;
+            }
+
+            .admin-avatar-options {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+
+            .admin-avatar-option {
+                width: 75px;
+                height: 75px;
+            }
+
+            header nav {
+                gap: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ==================================
+         ADMIN AUTHENTICATION
+    ================================== -->
+
+    <script>
+
+        if (localStorage.getItem("adminLoggedIn") !== "true") {
+            window.location.replace("admin-login.html");
+        }
+
+    </script>
+
+
+    <!-- ==================================
+         ADMIN HEADER
+    ================================== -->
+
+    <header>
+
+        <h2>SMARTMOB ADMIN</h2>
+
+        <nav>
+
+            <div class="profile-dropdown">
+
+                <button
+                    type="button"
+                    id="profile-menu-btn"
+                    class="profile-menu-btn"
+                    aria-label="Open admin menu"
+                    aria-expanded="false">
+
+                    <img
+                        id="header-profile-picture"
+                        src="https://i.pravatar.cc/100?img=12"
+                        alt="Admin Profile">
+
+                </button>
+
+                <div
+                    class="profile-dropdown-menu"
+                    id="profile-dropdown-menu">
+
+                    <a href="admin.html">
+                        Dashboard
+                    </a>
+
+                    <a href="admin-orders.html">
+                        Manage Orders
+                    </a>
+
+                    <a href="index.html">
+                        View Website
+                    </a>
+
+                    <a href="admin-profile-picture.html">
+                        Edit Profile Picture
+                    </a>
+
+                    <a href="#" id="dropdown-logout">
+                        Logout
+                    </a>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ==================================
+         EDIT ADMIN PROFILE PICTURE
+    ================================== -->
+
+    <section class="admin-picture-section">
+
+        <h1>Edit Admin Profile Picture</h1>
+
+
+        <!-- CURRENT PROFILE PICTURE -->
+
+        <div class="admin-current-picture">
+
+            <img
+                id="admin-picture-preview"
+                src="https://i.pravatar.cc/100?img=12"
+                alt="Admin Profile Picture">
+
+            <p>Current Profile Picture</p>
+
+        </div>
+
+
+        <!-- DEFAULT PROFILE PICTURES -->
+
+        <h3>Choose a Default Picture</h3>
+
+        <div class="admin-avatar-options">
+
+            <button
+                type="button"
+                class="admin-avatar-option"
+                data-image="https://i.pravatar.cc/150?img=12">
+
+                <img
+                    src="https://i.pravatar.cc/150?img=12"
+                    alt="Avatar 1">
+
+            </button>
+
+
+            <button
+                type="button"
+                class="admin-avatar-option"
+                data-image="https://i.pravatar.cc/150?img=5">
+
+                <img
+                    src="https://i.pravatar.cc/150?img=5"
+                    alt="Avatar 2">
+
+            </button>
+
+
+            <button
+                type="button"
+                class="admin-avatar-option"
+                data-image="https://i.pravatar.cc/150?img=11">
+
+                <img
+                    src="https://i.pravatar.cc/150?img=11"
+                    alt="Avatar 3">
+
+            </button>
+
+
+            <button
+                type="button"
+                class="admin-avatar-option"
+                data-image="https://i.pravatar.cc/150?img=32">
+
+                <img
+                    src="https://i.pravatar.cc/150?img=32"
+                    alt="Avatar 4">
+
+            </button>
+
+
+            <button
+                type="button"
+                class="admin-avatar-option"
+                data-image="https://i.pravatar.cc/150?img=47">
+
+                <img
+                    src="https://i.pravatar.cc/150?img=47"
+                    alt="Avatar 5">
+
+            </button>
+
+
+            <button
+                type="button"
+                class="admin-avatar-option"
+                data-image="https://i.pravatar.cc/150?img=8">
+
+                <img
+                    src="https://i.pravatar.cc/150?img=8"
+                    alt="Avatar 6">
+
+            </button>
+
+
+            <button
+                type="button"
+                class="admin-avatar-option"
+                data-image="https://i.pravatar.cc/150?img=60">
+
+                <img
+                    src="https://i.pravatar.cc/150?img=60"
+                    alt="Avatar 7">
+
+            </button>
+
+
+            <button
+                type="button"
+                class="admin-avatar-option"
+                data-image="https://i.pravatar.cc/150?img=68">
+
+                <img
+                    src="https://i.pravatar.cc/150?img=68"
+                    alt="Avatar 8">
+
+            </button>
+
+        </div>
+
+
+        <!-- UPLOAD PICTURE FROM DEVICE -->
+
+        <div class="admin-upload-section">
+
+            <h3>Or Upload Your Own Picture</h3>
+
+            <p>Choose an image from your device.</p>
+
+            <input
+                type="file"
+                id="admin-upload-picture"
+                accept="image/*">
+
+            <p>Maximum image size: 1 MB</p>
+
+        </div>
+
+
+        <!-- SAVE PICTURE -->
+
+        <button
+            type="button"
+            id="admin-save-picture">
+
+            Save Profile Picture
+
+        </button>
+
+
+        <!-- BACK TO ADMIN DASHBOARD -->
+
+        <a
+            href="admin.html"
+            class="admin-back-link">
+
+            Back to Admin Dashboard
+
+        </a>
+
+    </section>
+
+
+    <!-- ==================================
+         FOOTER
+    ================================== -->
+
+    <footer>
+
+        <p>© 2026 SmartMob. All Rights Reserved.</p>
+
+    </footer>
+
+
+    <!-- ==================================
+         ADMIN PROFILE PICTURE JAVASCRIPT
+    ================================== -->
+
+    <script src="js/admin-profile-picture.js"></script>
+
+
+    <!-- ==================================
+         ADMIN DROPDOWN JAVASCRIPT
+    ================================== -->
+
+    <script>
+
+        (function () {
+
+            const profileMenuBtn =
+                document.getElementById("profile-menu-btn");
+
+            const profileDropdownMenu =
+                document.getElementById("profile-dropdown-menu");
+
+
+            if (profileMenuBtn && profileDropdownMenu) {
+
+                profileMenuBtn.addEventListener(
+                    "click",
+                    function(event) {
+
+                        event.stopPropagation();
+
+                        const isOpen =
+                            profileDropdownMenu.classList.toggle("show");
+
+                        profileMenuBtn.setAttribute(
+                            "aria-expanded",
+                            String(isOpen)
+                        );
+
+                    }
+                );
+
+
+                document.addEventListener(
+                    "click",
+                    function(event) {
+
+                        if (!event.target.closest(".profile-dropdown")) {
+
+                            profileDropdownMenu.classList.remove("show");
+
+                            profileMenuBtn.setAttribute(
+                                "aria-expanded",
+                                "false"
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            // ADMIN LOGOUT
+
+            const dropdownLogout =
+                document.getElementById("dropdown-logout");
+
+            if (dropdownLogout) {
+
+                dropdownLogout.addEventListener(
+                    "click",
+                    function(event) {
+
+                        event.preventDefault();
+
+                        localStorage.removeItem("adminLoggedIn");
+
+                        window.location.href = "admin-login.html";
+
+                    }
+                );
+
+            }
+
+        })();
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>All Mobiles - SmartMob</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* ==================================
+           PROFILE DROPDOWN HEADER
+        ================================== */
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .profile-dropdown {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* Circular profile button */
+        #profile-menu-btn {
+            width: 45px;
+            height: 45px;
+            min-width: 45px;
+            padding: 0;
+            border: 2px solid white;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #header-profile-picture {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* Dropdown hidden by default */
+        #profile-dropdown-menu {
+            display: none !important;
+            position: absolute;
+            top: calc(100% + 12px);
+            right: 0;
+            width: 190px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            z-index: 10000;
+        }
+
+        /* Show dropdown when clicked */
+        #profile-dropdown-menu.show {
+            display: block !important;
+        }
+
+        #profile-dropdown-menu a {
+            display: block;
+            padding: 13px 16px;
+            color: #172554;
+            text-decoration: none;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+
+        #profile-dropdown-menu a:hover {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        /* Mobile responsive header */
+        @media (max-width: 768px) {
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            header nav {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ==================================
+         NAVIGATION BAR
+    ================================== -->
+
+    <header>
+
+        <h2>SMARTMOB</h2>
+
+        <nav>
+
+            <a href="index.html">Home</a>
+
+            <a href="products.html">Mobiles</a>
+
+            <!-- PROFILE DROPDOWN -->
+            <div class="profile-dropdown">
+
+                <button
+                    type="button"
+                    id="profile-menu-btn"
+                    aria-label="Open profile menu"
+                    aria-expanded="false">
+
+                    <img
+                        id="header-profile-picture"
+                        src="https://i.pravatar.cc/100?img=12"
+                        alt="User Profile">
+
+                </button>
+
+                <div id="profile-dropdown-menu">
+
+                    <a href="profile.html">My Profile</a>
+
+                    <a href="my-orders.html">My Orders</a>
+
+                    <a href="wishlist.html">Wishlist</a>
+
+                    <a href="cart.html">Cart</a>
+
+                    <a href="admin-login.html">Admin</a>
+
+                    <a href="login.html" id="dropdown-login">
+                        Login
+                    </a>
+
+                    <a href="#" id="dropdown-logout">
+                        Logout
+                    </a>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ==================================
+         PRODUCTS SECTION
+    ================================== -->
+
+    <section class="shop-section">
+
+        <h1>Explore Our Mobiles</h1>
+
+        <div class="shop-layout">
+
+            <!-- LEFT FILTER SIDEBAR -->
+
+            <aside class="filter-sidebar">
+
+                <h2>Filters</h2>
+
+                <!-- SEARCH FILTER -->
+
+                <div class="filter-group">
+
+                    <h3>Search Mobiles</h3>
+
+                    <input
+                        type="text"
+                        id="search"
+                        placeholder="Search mobiles...">
+
+                </div>
+
+                <!-- BRAND FILTER -->
+
+                <div class="filter-group">
+
+                    <h3>Brands</h3>
+
+                    <select id="brand-filter">
+
+                        <option value="all">All Brands</option>
+
+                        <option value="Apple">Apple</option>
+
+                        <option value="Samsung">Samsung</option>
+
+                        <option value="OnePlus">OnePlus</option>
+
+                        <option value="Redmi">Redmi</option>
+
+                    </select>
+
+                </div>
+
+                <!-- PRICE RANGE FILTER -->
+
+                <div class="filter-group">
+
+                    <h3>Price Range</h3>
+
+                    <input
+                        type="number"
+                        id="min-price"
+                        placeholder="Minimum Price"
+                        min="0">
+
+                    <br><br>
+
+                    <input
+                        type="number"
+                        id="max-price"
+                        placeholder="Maximum Price"
+                        min="0">
+
+                </div>
+
+                <!-- CUSTOMER RATING FILTER -->
+
+                <div class="filter-group">
+
+                    <h3>Customer Rating</h3>
+
+                    <select id="rating-filter">
+
+                        <option value="all">All Ratings</option>
+
+                        <option value="5">5 Stars</option>
+
+                        <option value="4">4 Stars & Above</option>
+
+                        <option value="3">3 Stars & Above</option>
+
+                        <option value="2">2 Stars & Above</option>
+
+                        <option value="1">1 Star & Above</option>
+
+                    </select>
+
+                </div>
+
+                <!-- PRICE SORTING -->
+
+                <div class="filter-group">
+
+                    <h3>Sort By Price</h3>
+
+                    <select id="sort-price">
+
+                        <option value="default">Default</option>
+
+                        <option value="low-high">
+                            Low to High
+                        </option>
+
+                        <option value="high-low">
+                            High to Low
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- CLEAR FILTERS -->
+
+                <button type="button" id="clear-filters">
+                    Clear Filters
+                </button>
+
+            </aside>
+
+
+            <!-- RIGHT PRODUCTS AREA -->
+
+            <main class="products-area">
+
+                <div class="products-heading">
+
+                    <h2>Available Smartphones</h2>
+
+                </div>
+
+                <!-- PRODUCT CARDS -->
+
+                <div id="product-list" class="product-grid">
+
+                    <!-- Products loaded using script.js -->
+
+                </div>
+
+            </main>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================
+         FOOTER
+    ================================== -->
+
+    <footer>
+
+        <p>© 2026 SmartMob. All Rights Reserved.</p>
+
+    </footer>
+
+
+    <!-- ==================================
+         MAIN JAVASCRIPT
+    ================================== -->
+
+    <script src="js/script.js"></script>
+
+
+    <!-- ==================================
+         PROFILE DROPDOWN JAVASCRIPT
+    ================================== -->
+
+    <script>
+
+    (function () {
+
+        const profileButton =
+            document.getElementById("profile-menu-btn");
+
+        const dropdownMenu =
+            document.getElementById("profile-dropdown-menu");
+
+        const loginLink =
+            document.getElementById("dropdown-login");
+
+        const logoutLink =
+            document.getElementById("dropdown-logout");
+
+
+        // Open and close profile dropdown
+
+        if (profileButton && dropdownMenu) {
+
+            profileButton.addEventListener("click", function (event) {
+
+                event.stopPropagation();
+
+                const isOpen =
+                    dropdownMenu.classList.toggle("show");
+
+                profileButton.setAttribute(
+                    "aria-expanded",
+                    String(isOpen)
+                );
+
+            });
+
+
+            // Close dropdown when clicking outside
+
+            document.addEventListener("click", function (event) {
+
+                if (!event.target.closest(".profile-dropdown")) {
+
+                    dropdownMenu.classList.remove("show");
+
+                    profileButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                }
+
+            });
+
+        }
+
+
+        // Check user login status
+
+        let loggedInUser = null;
+
+        try {
+
+            loggedInUser = JSON.parse(
+                localStorage.getItem("loggedInUser")
+            );
+
+        } catch (error) {
+
+            loggedInUser = null;
+
+        }
+
+
+        // Show Login or Logout
+
+        if (loginLink && logoutLink) {
+
+            if (loggedInUser) {
+
+                loginLink.style.display = "none";
+
+                logoutLink.style.display = "block";
+
+            } else {
+
+                loginLink.style.display = "block";
+
+                logoutLink.style.display = "none";
+
+            }
+
+        }
+
+
+        // Logout functionality
+
+        if (logoutLink) {
+
+            logoutLink.addEventListener("click", function (event) {
+
+                event.preventDefault();
+
+                localStorage.removeItem("loggedInUser");
+
+                window.location.href = "login.html";
+
+            });
+
+        }
+
+    })();
+
+    </script>
+    <script src="js/profile-picture.js"></script>
+
+</body>
+
+</html>

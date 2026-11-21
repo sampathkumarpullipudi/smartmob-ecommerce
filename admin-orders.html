@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Orders - SmartMob Admin</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* ==================================
+           ADMIN PROFILE DROPDOWN
+        ================================== */
+
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-menu-btn {
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            border: 2px solid white;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-menu-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 55px;
+            right: 0;
+            min-width: 190px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .profile-dropdown-menu.show {
+            display: block;
+        }
+
+        .profile-dropdown-menu a {
+            display: block;
+            padding: 13px 16px;
+            color: #172554;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .profile-dropdown-menu a:hover {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        @media (max-width: 768px) {
+            header nav {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ==================================
+         ADMIN HEADER
+    ================================== -->
+
+    <header>
+
+        <h2>SMARTMOB ADMIN</h2>
+
+        <nav>
+
+            <!-- Admin Profile Dropdown -->
+            <div class="profile-dropdown">
+
+    <button
+        type="button"
+        id="profile-menu-btn"
+        class="profile-menu-btn"
+        aria-label="Open admin menu"
+        aria-expanded="false">
+
+        <img
+            id="header-profile-picture"
+            src="https://i.pravatar.cc/100?img=12"
+            alt="Admin Profile">
+
+    </button>
+
+    <div
+        class="profile-dropdown-menu"
+        id="profile-dropdown-menu">
+
+        <a href="admin.html">Dashboard</a>
+
+        <a href="admin-orders.html">Manage Orders</a>
+
+        <a href="index.html">View Website</a>
+
+        <a href="admin-profile-picture.html">Edit Profile Picture</a>
+
+        <a href="#" id="dropdown-logout">Logout</a>
+
+    </div>
+
+</div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ==================================
+         CUSTOMER ORDERS
+    ================================== -->
+
+    <section class="admin-orders-section">
+
+        <h1>Customer Orders</h1>
+
+        <div id="admin-orders-list">
+
+            <!-- Orders will appear here -->
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================
+         FOOTER
+    ================================== -->
+
+    <footer>
+
+        <p>© 2026 SmartMob. All Rights Reserved.</p>
+
+    </footer>
+
+
+    <!-- ==================================
+         ADMIN AUTHENTICATION
+    ================================== -->
+
+    <script>
+
+        if (localStorage.getItem("adminLoggedIn") === "true") {
+
+            const script = document.createElement("script");
+
+            script.src = "js/admin-orders.js";
+
+            document.body.appendChild(script);
+
+        } else {
+
+            window.location.replace("admin-login.html");
+
+        }
+
+    </script>
+
+
+    <!-- ==================================
+         ADMIN PROFILE DROPDOWN JAVASCRIPT
+    ================================== -->
+
+    <script>
+
+        (function () {
+
+            const profileMenuBtn =
+                document.getElementById("profile-menu-btn");
+
+            const profileDropdownMenu =
+                document.getElementById("profile-dropdown-menu");
+
+
+            // Open and close dropdown
+            if (profileMenuBtn && profileDropdownMenu) {
+
+                profileMenuBtn.addEventListener("click", function(event) {
+
+                    event.stopPropagation();
+
+                    const isOpen =
+                        profileDropdownMenu.classList.toggle("show");
+
+                    profileMenuBtn.setAttribute(
+                        "aria-expanded",
+                        String(isOpen)
+                    );
+
+                });
+
+
+                // Close dropdown when clicking outside
+                document.addEventListener("click", function(event) {
+
+                    if (!event.target.closest(".profile-dropdown")) {
+
+                        profileDropdownMenu.classList.remove("show");
+
+                        profileMenuBtn.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+
+                    }
+
+                });
+
+            }
+
+
+            // Admin Logout
+            const dropdownLogout =
+                document.getElementById("dropdown-logout");
+
+            if (dropdownLogout) {
+
+                dropdownLogout.addEventListener("click", function(event) {
+
+                    event.preventDefault();
+
+                    localStorage.removeItem("adminLoggedIn");
+
+                    window.location.href = "admin-login.html";
+
+                });
+
+            }
+
+        })();
+
+    </script>
+<script src="js/admin-profile-picture.js"></script>
+</body>
+
+</html>
