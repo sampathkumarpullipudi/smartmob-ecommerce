@@ -164,9 +164,9 @@ const defaultMobiles = [
     },
     {
         id: 17,
-        name: "Wireless Headphones",
-        brand: "Sony",
-        category: "Accessories",
+        name: "Apple AirPods MAX 2",
+        brand: "Apple",
+        category: "Headphones",
         price: 74999,
         oldPrice: 84999,
         discount: "17%",

@@ -5241,3 +5241,22 @@ html[data-theme="dark"] input::placeholder,
 html[data-theme="dark"] textarea::placeholder {
     color: #9ca3af;
 }
+/* BEST SELLING - DARK MODE FIX */
+
+html[data-theme="dark"] .best-selling-section h2 {
+    color: #f9fafb;
+}
+
+html[data-theme="dark"] .best-selling-card {
+    background: #1f2937;
+    border: 1px solid #374151;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="dark"] .best-selling-card h3 {
+    color: #f9fafb;
+}
+
+html[data-theme="dark"] .best-selling-card p {
+    color: #d1d5db;
+}
