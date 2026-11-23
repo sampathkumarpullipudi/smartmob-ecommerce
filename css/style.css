@@ -5260,3 +5260,34 @@ html[data-theme="dark"] .best-selling-card h3 {
 html[data-theme="dark"] .best-selling-card p {
     color: #d1d5db;
 }
+/* SMARTMOB PROFILE DROPDOWN - LIGHT & DARK MODE */
+
+/* Light Mode */
+html:not([data-theme="dark"]) #profile-dropdown-menu {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+html:not([data-theme="dark"]) #profile-dropdown-menu a {
+    color: #172554 !important;
+}
+
+html:not([data-theme="dark"]) #profile-dropdown-menu a:hover {
+    background: #eff6ff !important;
+    color: #2563eb !important;
+}
+
+/* Dark Mode */
+html[data-theme="dark"] #profile-dropdown-menu {
+    background: #1f2937 !important;
+    border: 1px solid #374151 !important;
+}
+
+html[data-theme="dark"] #profile-dropdown-menu a {
+    color: #f9fafb !important;
+}
+
+html[data-theme="dark"] #profile-dropdown-menu a:hover {
+    background: #374151 !important;
+    color: #60a5fa !important;
+}

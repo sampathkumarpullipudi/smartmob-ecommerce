@@ -3,52 +3,48 @@
 
 // Get wishlist data
 function getWishlist() {
+    try {
+        const wishlist = JSON.parse(
+            localStorage.getItem("wishlist")
+        );
 
-    return JSON.parse(
-        localStorage.getItem("wishlist")
-    ) || [];
-
+        return Array.isArray(wishlist) ? wishlist : [];
+    } catch (error) {
+        return [];
+    }
 }
-
 
 // Display wishlist products
 function displayWishlist() {
-
-    const wishlistItems =
-        document.getElementById("wishlist-items");
+    const wishlistItems = document.getElementById("wishlist-items");
 
     if (!wishlistItems) return;
 
-    let wishlist = getWishlist();
+    const wishlist = getWishlist();
 
     // Check empty wishlist
     if (wishlist.length === 0) {
-
         wishlistItems.innerHTML =
             "<h3>Your wishlist is empty! ❤️</h3>";
-
         return;
-
     }
 
     // Display products
     wishlistItems.innerHTML = wishlist.map(mobile => `
-
         <div class="product-card wishlist-card">
 
-            <!-- Functional Wishlist Heart Icon -->
+            <!-- Wishlist Heart Icon -->
             <button
                 class="wishlist-heart-icon"
                 type="button"
-                onclick="removeWishlist(${mobile.id})"
-                aria-label="Remove ${mobile.name} from wishlist"
+                onclick="removeWishlist(${Number(mobile.id)})"
+                aria-label="Remove from wishlist"
                 title="Remove from wishlist">
-
                 ♥
             </button>
 
             <!-- Clickable Product Image and Name -->
-            <a href="product-details.html?id=${mobile.id}"
+            <a href="product-details.html?id=${encodeURIComponent(mobile.id)}"
                class="product-details-link">
 
                 <img src="${mobile.image}" alt="${mobile.name}">
@@ -65,26 +61,23 @@ function displayWishlist() {
             <!-- Add to Cart -->
             <button
                 class="wishlist-cart"
-                onclick="addWishlistToCart(${mobile.id})">
+                type="button"
+                onclick="addWishlistToCart(${Number(mobile.id)})">
 
                 Add to Cart
 
             </button>
 
         </div>
-
     `).join("");
-
 }
 
-
-// Remove product by clicking heart icon
+// Remove product from wishlist
 function removeWishlist(id) {
-
     let wishlist = getWishlist();
 
     wishlist = wishlist.filter(
-        mobile => mobile.id !== id
+        mobile => Number(mobile.id) !== Number(id)
     );
 
     localStorage.setItem(
@@ -93,48 +86,47 @@ function removeWishlist(id) {
     );
 
     displayWishlist();
-
 }
 
+// Add wishlist product to account-specific cart
 
-// Add wishlist product to cart
+// Add wishlist product to cart with fly-to-cart animation
 function addWishlistToCart(id) {
 
     const wishlist = getWishlist();
 
     const product = wishlist.find(
-        mobile => mobile.id === id
+        mobile => Number(mobile.id) === Number(id)
     );
 
     if (!product) return;
 
-    let cart = JSON.parse(
-        localStorage.getItem("cart")
-    ) || [];
+    let cart = getSmartMobCart();
 
     const existingProduct = cart.find(
-        item => item.id === id
+        item => Number(item.id) === Number(id)
     );
 
     if (existingProduct) {
-
-        existingProduct.quantity++;
-
+        existingProduct.quantity =
+            (Number(existingProduct.quantity) || 1) + 1;
     } else {
-
         cart.push({
             ...product,
             quantity: 1
         });
-
     }
 
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
+    // Save to the correct user's cart
+    saveSmartMobCart(cart);
 
-    alert(product.name + " added to cart!");
+    // Update the floating cart icon and item count
+    updateMiniCartIcon();
+
+    // Animate the product image into the cart
+    if (typeof animateProductToCart === "function") {
+        animateProductToCart(product.image);
+    }
 
 }
 
