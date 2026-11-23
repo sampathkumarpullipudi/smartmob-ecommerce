@@ -212,16 +212,19 @@ try {
 
         // Add new default products that are not already saved
         defaultMobiles.forEach(defaultProduct => {
+    const existingIndex = mobiles.findIndex(
+        mobile => Number(mobile.id) === Number(defaultProduct.id)
+    );
 
-            const alreadyExists = mobiles.some(
-                mobile => Number(mobile.id) === Number(defaultProduct.id)
-            );
-
-            if (!alreadyExists) {
-                mobiles.push(defaultProduct);
-            }
-
-        });
+    if (existingIndex === -1) {
+        mobiles.push(defaultProduct);
+    } else if (Number(defaultProduct.id) === 17) {
+        mobiles[existingIndex] = {
+            ...mobiles[existingIndex],
+            ...defaultProduct
+        };
+    }
+});
 
     } else {
 
