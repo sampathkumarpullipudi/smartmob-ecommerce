@@ -9,22 +9,119 @@
     <title>Product Details - SmartMob</title>
 
     <link rel="stylesheet" href="css/style.css">
+    <style>
+    .profile-dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .profile-menu-btn {
+        width: 45px;
+        height: 45px;
+        padding: 0;
+        border: 2px solid white;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .profile-menu-btn img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .profile-dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 55px;
+        right: 0;
+        min-width: 180px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        overflow: hidden;
+        z-index: 1000;
+    }
+
+    .profile-dropdown-menu.show {
+        display: block;
+    }
+
+    .profile-dropdown-menu a {
+        display: block;
+        padding: 13px 16px;
+        color: #172554;
+        text-decoration: none;
+        font-size: 15px;
+    }
+
+    .profile-dropdown-menu a:hover {
+        background: #eff6ff;
+        color: #2563eb;
+    }
+
+    header nav {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+
+    @media (max-width: 768px) {
+        header nav {
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+    }
+</style>
 </head>
 
 <body>
 
     <!-- Navigation -->
-    <header>
-        <h2>SMARTMOB</h2>
+   <header>
+    <h2>SMARTMOB</h2>
 
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="products.html">Mobiles</a>
-            <a href="wishlist.html">Wishlist</a>
-            <a href="cart.html">Cart</a>
-            <a href="login.html">Login</a>
-        </nav>
-    </header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="products.html">Mobiles</a>
+
+        <div class="profile-dropdown">
+
+            <button
+                type="button"
+                id="profile-menu-btn"
+                class="profile-menu-btn"
+                aria-label="Open profile menu"
+                aria-expanded="false">
+
+                <img
+                    id="header-profile-picture"
+                    src="https://i.pravatar.cc/100?img=12"
+                    alt="User Profile">
+            </button>
+
+            <div
+                class="profile-dropdown-menu"
+                id="profile-dropdown-menu">
+
+                <a href="profile.html">My Profile</a>
+                <a href="my-orders.html">My Orders</a>
+                <a href="wishlist.html">Wishlist</a>
+                <a href="cart.html">Cart</a>
+                <a href="admin-login.html">Admin</a>
+                <a href="#" id="dropdown-logout">Logout</a>
+
+            </div>
+        </div>
+    </nav>
+</header>
 
     <!-- Product Details -->
     <section class="details-section">
@@ -43,8 +140,71 @@
     </footer>
 
     <!-- Product Details JavaScript -->
+     <script src="js/cart-storage.js"></script>
     <script src="js/product-details.js"></script>
+    <script src="js/mini-cart.js"></script>
     <script src="js/profile-picture.js"></script>
+    <script>
+(function () {
 
+    const profileMenuBtn =
+        document.getElementById("profile-menu-btn");
+
+    const profileDropdownMenu =
+        document.getElementById("profile-dropdown-menu");
+
+    if (profileMenuBtn && profileDropdownMenu) {
+
+        profileMenuBtn.addEventListener("click", function(event) {
+
+            event.stopPropagation();
+
+            const isOpen =
+                profileDropdownMenu.classList.toggle("show");
+
+            profileMenuBtn.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+        });
+
+        document.addEventListener("click", function(event) {
+
+            if (!event.target.closest(".profile-dropdown")) {
+
+                profileDropdownMenu.classList.remove("show");
+
+                profileMenuBtn.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            }
+
+        });
+
+    }
+
+    const dropdownLogout =
+        document.getElementById("dropdown-logout");
+
+    if (dropdownLogout) {
+
+        dropdownLogout.addEventListener("click", function(event) {
+
+            event.preventDefault();
+
+            localStorage.removeItem("loggedInUser");
+
+            window.location.href = "login.html";
+
+        });
+
+    }
+
+})();
+</script>
+<script src="js/theme.js"></script>
 </body>
 </html>

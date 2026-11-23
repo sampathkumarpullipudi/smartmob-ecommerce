@@ -6,7 +6,114 @@
 // Get HTML elements
 
 const productForm = document.getElementById("product-form");
+// Product specification form elements
+const specificationsContainer =
+    document.getElementById("product-specifications");
 
+
+const specificationFields = {
+    "Mobiles": [
+        ["display", "Display"],
+        ["processor", "Processor"],
+        ["ram", "RAM"],
+        ["storage", "Storage"],
+        ["battery", "Battery"],
+        ["camera", "Camera"]
+    ],
+
+    "Earbuds": [
+        ["driver", "Driver Size"],
+        ["bluetooth", "Bluetooth Version"],
+        ["battery", "Battery Life"],
+        ["anc", "ANC"],
+        ["microphone", "Microphone"],
+        ["water", "Water Resistance"],
+        ["charging", "Charging Type"]
+    ],
+
+    "Headphones": [
+        ["driver", "Driver Size"],
+        ["bluetooth", "Bluetooth Version"],
+        ["battery", "Battery Life"],
+        ["noise", "Noise Cancellation"],
+        ["microphone", "Microphone"]
+    ],
+
+    "Chargers": [
+        ["wattage", "Output Wattage"],
+        ["ports", "Number of Ports"],
+        ["input", "Input Voltage"],
+        ["output", "Output Voltage"],
+        ["charging", "Fast Charging Technology"],
+        ["compatibility", "Compatibility"]
+    ],
+
+    "Power Banks": [
+        ["capacity", "Capacity (mAh)"],
+        ["wattage", "Output Wattage"],
+        ["ports", "Output Ports"],
+        ["input", "Input Type"],
+        ["charging", "Fast Charging"],
+        ["weight", "Weight"]
+    ],
+
+    "Mobile Accessories": [
+        ["type", "Accessory Type"],
+        ["material", "Material"],
+        ["compatibility", "Compatibility"],
+        ["dimensions", "Dimensions"],
+        ["features", "Features"]
+    ],
+
+    "Smartwatches": [
+        ["display", "Display"],
+        ["battery", "Battery Life"],
+        ["sensors", "Health Sensors"],
+        ["water", "Water Resistance"],
+        ["features", "Additional Features"]
+    ],
+
+    "Speakers": [
+        ["power", "Output Power"],
+        ["driver", "Driver Size"],
+        ["bluetooth", "Bluetooth Version"],
+        ["battery", "Battery Life"],
+        ["water", "Water Resistance"]
+    ]
+};
+
+// Generate specification inputs based on selected category
+
+const categorySelect = document.getElementById("mobile-category");
+
+const specificationInputs =
+    document.getElementById("specification-inputs");
+
+function displaySpecificationFields(category, savedSpecs = {}) {
+
+    const fields = specificationFields[category] || [];
+
+    specificationInputs.innerHTML = fields.map(([key, label]) => `
+        <label for="spec-${key}">${label}</label>
+
+        <input
+            type="text"
+            id="spec-${key}"
+            data-spec-key="${key}"
+            placeholder="Enter ${label}"
+            value="${savedSpecs[key] || ""}">
+    `).join("");
+
+}
+
+categorySelect.addEventListener("change", function() {
+
+    displaySpecificationFields(this.value);
+
+});
+
+// Display fields for the initially selected category
+displaySpecificationFields(categorySelect.value);
 const adminProductList =
     document.getElementById("admin-product-list");
 
@@ -112,6 +219,7 @@ function displayAdminProducts() {
 // ADD OR UPDATE PRODUCT
 // ==========================================
 
+
 productForm.addEventListener("submit", function(event) {
 
     event.preventDefault();
@@ -143,12 +251,26 @@ productForm.addEventListener("submit", function(event) {
         return;
     }
 
+    // Collect technical specifications
+    const specifications = {};
+
+    specificationInputs
+        .querySelectorAll("[data-spec-key]")
+        .forEach(input => {
+
+            const value = input.value.trim();
+
+            if (value) {
+                specifications[input.dataset.specKey] = value;
+            }
+
+        });
+
     const editingId = productForm.dataset.editingId;
 
     if (editingId) {
 
         // Update existing product
-
         products = products.map(product => {
 
             if (product.id === Number(editingId)) {
@@ -160,6 +282,7 @@ productForm.addEventListener("submit", function(event) {
                     category,
                     price,
                     oldPrice,
+                    specifications,
                     discount: oldPrice > price
                         ? Math.round((oldPrice - price) / oldPrice * 100) + "%"
                         : "0%",
@@ -177,7 +300,6 @@ productForm.addEventListener("submit", function(event) {
     } else {
 
         // Add new product
-
         const newProduct = {
 
             id: Date.now(),
@@ -186,6 +308,7 @@ productForm.addEventListener("submit", function(event) {
             category,
             price,
             oldPrice,
+            specifications,
             discount: oldPrice > price
                 ? Math.round((oldPrice - price) / oldPrice * 100) + "%"
                 : "0%",
@@ -199,9 +322,13 @@ productForm.addEventListener("submit", function(event) {
 
     }
 
+    // Save products
     saveProducts(products);
 
+    // Reset form
     productForm.reset();
+
+    displaySpecificationFields(categorySelect.value);
 
     delete productForm.dataset.editingId;
 
@@ -258,6 +385,10 @@ adminProductList.addEventListener("click", function(event) {
 
         document.getElementById("mobile-brand").value = product.brand;
         document.getElementById("mobile-category").value = product.category || "Mobiles";
+        displaySpecificationFields(
+    product.category || "Mobiles",
+    product.specifications || {}
+);
 
         document.getElementById("mobile-price").value = product.price;
 

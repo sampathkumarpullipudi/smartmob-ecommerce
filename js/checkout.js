@@ -5,11 +5,7 @@
 
 // Get cart data
 function getCart() {
-
-    return JSON.parse(
-        localStorage.getItem("cart")
-    ) || [];
-
+    return getSmartMobCart();
 }
 
 
@@ -157,7 +153,7 @@ checkoutForm.addEventListener("submit", function(event) {
     );
 
     // Clear shopping cart
-    localStorage.removeItem("cart");
+    clearSmartMobCart();
 
     // Display confirmation
     alert(

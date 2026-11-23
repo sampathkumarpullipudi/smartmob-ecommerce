@@ -1,8 +1,7 @@
 
 // ==========================================
 // SMARTMOB
-// STEP 12: PRODUCT DETAILS
-// STEP 13: CUSTOMER REVIEWS & RATINGS
+// PRODUCT DETAILS, SPECIFICATIONS & REVIEWS
 // ==========================================
 
 
@@ -57,22 +56,18 @@ const defaultMobiles = [
 let mobiles;
 
 try {
-    mobiles = JSON.parse(
-        localStorage.getItem("mobiles")
-    );
+    mobiles = JSON.parse(localStorage.getItem("mobiles"));
 } catch (error) {
     mobiles = null;
 }
 
 if (!Array.isArray(mobiles) || mobiles.length === 0) {
-
     mobiles = defaultMobiles;
 
     localStorage.setItem(
         "mobiles",
         JSON.stringify(mobiles)
     );
-
 }
 
 
@@ -86,22 +81,120 @@ const urlParams = new URLSearchParams(
 
 const productId = Number(urlParams.get("id"));
 
-
-// Find selected product
-
 const product = mobiles.find(
-    mobile => mobile.id === productId
+    item => String(item.id) === String(productId)
 );
-
-
-// Get product details container
 
 const productDetails =
     document.getElementById("product-details");
 
 
 // ==========================================
-// STEP 4: DISPLAY PRODUCT DETAILS
+// STEP 4: HTML SAFE TEXT
+// ==========================================
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+
+// ==========================================
+// STEP 5: DISPLAY PRODUCT SPECIFICATIONS
+// ==========================================
+
+
+function displaySpecifications(product) {
+
+    const specifications = product.specifications || {};
+
+    const specificationRows = Object.entries(specifications)
+        .filter(([key, value]) =>
+            String(value ?? "").trim() !== ""
+        )
+        .map(([key, value]) => `
+            <tr>
+                <th>${escapeHTML(
+                    key.replace(/([A-Z])/g, " $1")
+                       .replace(/^./, letter => letter.toUpperCase())
+                )}</th>
+                <td>${escapeHTML(value)}</td>
+            </tr>
+        `).join("");
+
+    const technicalSpecifications = specificationRows
+        ? specificationRows
+        : `
+            <tr>
+                <td colspan="2">
+                    Specifications not added yet.
+                </td>
+            </tr>
+        `;
+
+    return `
+        <div class="specifications">
+
+            <h2>Product Information</h2>
+
+            <table>
+                <tr>
+                    <th>Product Name</th>
+                    <td>${escapeHTML(product.name)}</td>
+                </tr>
+
+                <tr>
+                    <th>Brand</th>
+                    <td>${escapeHTML(product.brand)}</td>
+                </tr>
+
+                <tr>
+                    <th>Category</th>
+                    <td>${escapeHTML(product.category || "Mobiles")}</td>
+                </tr>
+
+                <tr>
+                    <th>Price</th>
+                    <td>₹${Number(product.price || 0).toLocaleString("en-IN")}</td>
+                </tr>
+
+                <tr>
+                    <th>Discount</th>
+                    <td>${escapeHTML(product.discount || "0%")}</td>
+                </tr>
+
+                <tr>
+                    <th>Availability</th>
+                    <td>In Stock</td>
+                </tr>
+            </table>
+
+            <details class="technical-specs-dropdown">
+
+                <summary>
+                    Technical Specifications
+                    <span class="dropdown-arrow">▼</span>
+                </summary>
+
+                <table>
+                    ${technicalSpecifications}
+                </table>
+
+            </details>
+
+        </div>
+    `;
+}
+
+
+
+// ==========================================
+// STEP 6: DISPLAY PRODUCT DETAILS
 // ==========================================
 
 function displayProductDetails() {
@@ -112,34 +205,32 @@ function displayProductDetails() {
 
         productDetails.innerHTML = `
             <h2>Product not found!</h2>
-            <a href="products.html">Back to Mobiles</a>
+            <a href="products.html">Back to Products</a>
         `;
 
         return;
     }
 
-
     productDetails.innerHTML = `
-
-        <!-- Product Information -->
 
         <div class="details-container">
 
             <div class="details-image">
 
-                <img src="${product.image}"
-                     alt="${product.name}">
+                <img
+                    src="${escapeHTML(product.image)}"
+                    alt="${escapeHTML(product.name)}"
+                >
 
             </div>
-
 
             <div class="details-info">
 
                 <p class="details-brand">
-                    ${product.brand}
+                    ${escapeHTML(product.brand)}
                 </p>
 
-                <h1>${product.name}</h1>
+                <h1>${escapeHTML(product.name)}</h1>
 
                 <div class="details-rating">
 
@@ -152,21 +243,21 @@ function displayProductDetails() {
                 </div>
 
                 <h2 class="details-price">
-                    ₹${product.price.toLocaleString("en-IN")}
+                    ₹${Number(product.price || 0).toLocaleString("en-IN")}
                 </h2>
 
                 <p class="details-old-price">
-                    ₹${product.oldPrice.toLocaleString("en-IN")}
+                    ₹${Number(product.oldPrice || 0).toLocaleString("en-IN")}
                 </p>
 
                 <p class="details-discount">
-                    ${product.discount} OFF
+                    ${escapeHTML(product.discount || "0%")} OFF
                 </p>
 
                 <p class="details-description">
-                    Explore the ${product.name} from
-                    ${product.brand}. Discover its features
-                    and enjoy shopping with SmartMob.
+                    Explore the ${escapeHTML(product.name)} from
+                    ${escapeHTML(product.brand)}.
+                    Discover its features and enjoy shopping with SmartMob.
                 </p>
 
                 <p class="stock-status">
@@ -175,13 +266,17 @@ function displayProductDetails() {
 
                 <div class="details-buttons">
 
-                    <button class="details-cart-btn"
-                            id="details-add-cart">
+                    <button
+                        class="details-cart-btn"
+                        id="details-add-cart"
+                    >
                         Add to Cart
                     </button>
 
-                    <button class="buy-now-btn"
-                            id="buy-now">
+                    <button
+                        class="buy-now-btn"
+                        id="buy-now"
+                    >
                         Buy Now
                     </button>
 
@@ -191,57 +286,13 @@ function displayProductDetails() {
 
         </div>
 
+        ${displaySpecifications(product)}
 
-        <!-- PRODUCT SPECIFICATIONS -->
-
-        <div class="specifications">
-
-            <h2>Product Information</h2>
-
-            <table>
-
-                <tr>
-                    <th>Product Name</th>
-                    <td>${product.name}</td>
-                </tr>
-
-                <tr>
-                    <th>Brand</th>
-                    <td>${product.brand}</td>
-                </tr>
-
-                <tr>
-                    <th>Price</th>
-                    <td>
-                        ₹${product.price.toLocaleString("en-IN")}
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>Discount</th>
-                    <td>${product.discount}</td>
-                </tr>
-
-                <tr>
-                    <th>Availability</th>
-                    <td>In Stock</td>
-                </tr>
-
-            </table>
-
-        </div>
-
-
-        <!-- ==================================
-             STEP 13: CUSTOMER REVIEWS
-        ================================== -->
+        <!-- CUSTOMER REVIEWS -->
 
         <div class="reviews-section">
 
             <h2>Customer Reviews & Ratings</h2>
-
-
-            <!-- Average Rating -->
 
             <div class="average-rating">
 
@@ -254,9 +305,6 @@ function displayProductDetails() {
                 </p>
 
             </div>
-
-
-            <!-- Review Form -->
 
             <div class="review-form">
 
@@ -317,9 +365,6 @@ function displayProductDetails() {
 
             </div>
 
-
-            <!-- Customer Reviews Display -->
-
             <div class="customer-reviews">
 
                 <h3>What Customers Say</h3>
@@ -342,7 +387,13 @@ function displayProductDetails() {
 
             addProductToCart();
 
-            alert(product.name + " added to cart!");
+            if (typeof animateProductToCart === "function") {
+                animateProductToCart(product.image);
+            }
+
+            if (typeof updateMiniCartIcon === "function") {
+                updateMiniCartIcon();
+            }
 
         });
 
@@ -364,22 +415,15 @@ function displayProductDetails() {
 
 
 // ==========================================
-// STEP 5: ADD PRODUCT TO CART
+// STEP 7: ADD PRODUCT TO CART
 // ==========================================
 
 function addProductToCart() {
 
     if (!product) return;
 
-    let cart = [];
-
-    try {
-        cart = JSON.parse(
-            localStorage.getItem("cart")
-        ) || [];
-    } catch (error) {
-        cart = [];
-    }
+    // Get the cart belonging to the currently logged-in user
+    let cart = getSmartMobCart();
 
     const existingProduct = cart.find(
         item => item.id === product.id
@@ -398,16 +442,14 @@ function addProductToCart() {
 
     }
 
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
+    // Save the updated cart for this user
+    saveSmartMobCart(cart);
 
 }
 
 
 // ==========================================
-// STEP 6: GET PRODUCT REVIEWS
+// STEP 8: GET PRODUCT REVIEWS
 // ==========================================
 
 function getProductReviews() {
@@ -430,26 +472,7 @@ function getProductReviews() {
 
 
 // ==========================================
-// STEP 7: SAFELY DISPLAY REVIEW TEXT
-// ==========================================
-
-function escapeReviewText(value) {
-
-    return String(value).replace(/[&<>"']/g, char => ({
-
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-
-    })[char]);
-
-}
-
-
-// ==========================================
-// STEP 8: DISPLAY CUSTOMER REVIEWS
+// STEP 9: DISPLAY CUSTOMER REVIEWS
 // ==========================================
 
 function displayReviews() {
@@ -473,8 +496,6 @@ function displayReviews() {
     const reviewCount =
         document.getElementById("review-count");
 
-
-    // Check whether review elements exist
 
     if (
         !reviewsList ||
@@ -500,7 +521,6 @@ function displayReviews() {
         const average = totalRating / reviews.length;
 
         const roundedAverage = average.toFixed(1);
-
 
         averageRating.textContent =
             "⭐ " + roundedAverage + " / 5";
@@ -546,7 +566,7 @@ function displayReviews() {
         <div class="review-card">
 
             <h4>
-                ${escapeReviewText(review.name)}
+                ${escapeHTML(review.name)}
             </h4>
 
             <p class="review-stars">
@@ -556,11 +576,11 @@ function displayReviews() {
             </p>
 
             <p>
-                ${escapeReviewText(review.text)}
+                ${escapeHTML(review.text)}
             </p>
 
             <small>
-                ${escapeReviewText(review.date || "")}
+                ${escapeHTML(review.date || "")}
             </small>
 
         </div>
@@ -571,7 +591,7 @@ function displayReviews() {
 
 
 // ==========================================
-// STEP 9: SUBMIT CUSTOMER REVIEW
+// STEP 10: SUBMIT CUSTOMER REVIEW
 // ==========================================
 
 function setupReviewForm() {
@@ -585,7 +605,6 @@ function setupReviewForm() {
     reviewForm.addEventListener("submit", function(event) {
 
         event.preventDefault();
-
 
         const name =
             document.getElementById("review-name").value.trim();
@@ -646,7 +665,7 @@ function setupReviewForm() {
 
         // Show success message
 
-        alert("Thank you! Your review has been submitted.");
+        alert("Thank you! Your review has been submitted!");
 
 
         // Clear form
@@ -664,22 +683,16 @@ function setupReviewForm() {
 
 
 // ==========================================
-// STEP 10: INITIALIZE PAGE
+// STEP 11: INITIALIZE PAGE
 // ==========================================
 
 if (productDetails) {
 
     if (product) {
 
-        // First display product and review HTML
-
         displayProductDetails();
 
-        // Then attach review form functionality
-
         setupReviewForm();
-
-        // Finally display saved reviews
 
         displayReviews();
 
@@ -687,7 +700,7 @@ if (productDetails) {
 
         productDetails.innerHTML = `
             <h2>Product not found!</h2>
-            <a href="products.html">Back to Mobiles</a>
+            <a href="products.html">Back to Products</a>
         `;
 
     }

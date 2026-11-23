@@ -1,13 +1,8 @@
-
 /* STEP 6: DISPLAY CART PRODUCTS */
 
-// Get cart data
+// Get cart data for the currently logged-in user
 function getCart() {
-
-    return JSON.parse(
-        localStorage.getItem("cart")
-    ) || [];
-
+    return getSmartMobCart();
 }
 
 
@@ -15,20 +10,15 @@ function getCart() {
 function displayCart() {
 
     const cartItems = document.getElementById("cart-items");
-
     const cartTotal = document.getElementById("cart-total");
 
     let cart = getCart();
 
     // Empty cart check
     if (cart.length === 0) {
-
         cartItems.innerHTML = "<h3>Your cart is empty!</h3>";
-
         cartTotal.textContent = "0";
-
         return;
-
     }
 
     let total = 0;
@@ -38,7 +28,6 @@ function displayCart() {
         total += item.price * item.quantity;
 
         return `
-
             <div class="cart-item">
 
                 <img src="${item.image}" alt="${item.name}">
@@ -73,7 +62,6 @@ function displayCart() {
                 </div>
 
             </div>
-
         `;
 
     }).join("");
@@ -97,14 +85,12 @@ function changeQuantity(id, change) {
 
         // Remove product if quantity becomes zero
         if (product.quantity <= 0) {
-
             cart = cart.filter(item => item.id !== id);
-
         }
 
     }
 
-    localStorage.setItem("cart", JSON.stringify(cart));
+    saveSmartMobCart(cart);
 
     displayCart();
 
@@ -118,7 +104,7 @@ function removeProduct(id) {
 
     cart = cart.filter(item => item.id !== id);
 
-    localStorage.setItem("cart", JSON.stringify(cart));
+    saveSmartMobCart(cart);
 
     displayCart();
 

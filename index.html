@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartMob - Online Mobile Store</title>
     <link rel="stylesheet" href="css/style.css">
+    
 
     <style>
         /* Profile dropdown */
@@ -87,10 +88,12 @@
     <!-- Navigation Bar -->
     <header>
         <h2>SMARTMOB</h2>
+        
 
         <nav>
             <a href="index.html">Home</a>
             <a href="products.html">Mobiles</a>
+            
 
             <!-- Profile Picture Dropdown -->
             <div class="profile-dropdown">
@@ -124,32 +127,42 @@
                 </div>
 
             </div>
+            <button id="theme-toggle" type="button"
+        aria-label="Switch theme"
+        title="Switch theme">
+    🌙
+</button>
         </nav>
     </header>
 
 
     <!-- Hero Section -->
-    <section class="hero">
+    <!-- React Homepage Mount Point -->
+<!-- Hero Section -->
+<section class="hero">
 
-        <div id="welcome-user"></div>
+    <div id="welcome-user"></div>
 
-        <h1>Find Your Perfect Product</h1>
+    <h1>Find Your Perfect Product</h1>
 
-        <p>
-            Discover smartphones and accessories at amazing prices.
-        </p>
+    <p>
+        Discover smartphones and accessories at amazing prices.
+    </p>
 
-        <a href="products.html" class="btn">
-            Shop Now
-        </a>
+    <a href="products.html" class="btn">
+        Shop Now
+    </a>
 
-    </section>
+</section>
+
+
+   
 
 
     <!-- Products Section -->
     <section class="products">
 
-        <h2>Featured Products</h2>
+        <h2 class="featured-title">Featured Products</h2>
 
         <!-- Search and Filter Section -->
         <div class="filter-section">
@@ -234,7 +247,12 @@
 
 
     <!-- Existing JavaScript -->
+     <script src="js/cart-storage.js"></script>
     <script src="js/script.js"></script>
+    
+    
+    <script src="js/mini-cart.js"></script>
+
 
 
     <!-- Profile Dropdown JavaScript -->
@@ -295,6 +313,9 @@
 
         })();
     </script>
+ 
 <script src="js/profile-picture.js"></script>
+<script src="js/theme.js"></script>
+
 </body>
 </html>
