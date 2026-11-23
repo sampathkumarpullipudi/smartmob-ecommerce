@@ -326,9 +326,7 @@ function displayProducts(products) {
 
     // Display filled heart for wishlist products
 
-    const wishlist = JSON.parse(
-        localStorage.getItem("wishlist")
-    ) || [];
+    const wishlist = getSmartMobWishlist();
 
     productList.querySelectorAll(".wishlist-btn").forEach(button => {
 
@@ -772,9 +770,7 @@ if (productList) {
 
         if (!selectedProduct) return;
 
-        let wishlist = JSON.parse(
-            localStorage.getItem("wishlist")
-        ) || [];
+        let wishlist = getSmartMobWishlist();
 
         const existingProduct = wishlist.find(
             item => item.id === productId
@@ -806,10 +802,7 @@ if (productList) {
 
         // Save wishlist
 
-        localStorage.setItem(
-            "wishlist",
-            JSON.stringify(wishlist)
-        );
+        saveSmartMobWishlist(wishlist);
         updateFloatingCart();
 
     });

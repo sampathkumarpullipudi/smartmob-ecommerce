@@ -3,15 +3,7 @@
 
 // Get wishlist data
 function getWishlist() {
-    try {
-        const wishlist = JSON.parse(
-            localStorage.getItem("wishlist")
-        );
-
-        return Array.isArray(wishlist) ? wishlist : [];
-    } catch (error) {
-        return [];
-    }
+    return getSmartMobWishlist();
 }
 
 // Display wishlist products
@@ -80,10 +72,7 @@ function removeWishlist(id) {
         mobile => Number(mobile.id) !== Number(id)
     );
 
-    localStorage.setItem(
-        "wishlist",
-        JSON.stringify(wishlist)
-    );
+    saveSmartMobWishlist(wishlist);
 
     displayWishlist();
 }
