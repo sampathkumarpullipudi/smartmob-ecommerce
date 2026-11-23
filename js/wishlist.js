@@ -16,8 +16,33 @@ function displayWishlist() {
 
     // Check empty wishlist
     if (wishlist.length === 0) {
-        wishlistItems.innerHTML =
-            "<h3>Your wishlist is empty! ❤️</h3>";
+        wishlistItems.innerHTML = `
+    <div class="empty-wishlist">
+
+        <div class="empty-wishlist-icon">
+            <span>♡</span>
+        </div>
+
+        <h2>Your Wishlist is Waiting!</h2>
+
+        <p>
+            You haven't saved any products yet.
+            Explore our collection and save your favourites here.
+        </p>
+
+        <a href="products.html" class="browse-mobiles-btn">
+            <span>Explore Mobiles</span>
+            <span>→</span>
+        </a>
+
+        <div class="empty-wishlist-note">
+            ❤️ Your favourite products, all in one place!
+        </div>
+
+    </div>
+`;
+
+return;
         return;
     }
 
