@@ -176,40 +176,71 @@
     window.addEventListener("storage", renderCart);
 })();
 // Animate product image flying into the cart icon
-function animateProductToCart(imageSrc) {
+// SMARTMOB - DYNAMIC FLY TO CART ANIMATION
+
+function animateProductToCart(imageSrc, sourceImage) {
+
     const cartIcon = document.getElementById("floating-cart");
 
-    if (!cartIcon || !imageSrc) return;
+    if (!cartIcon || !imageSrc || !sourceImage) return;
 
+    // Get the actual product image position
+    const startPosition = sourceImage.getBoundingClientRect();
+
+    // Get the floating cart position
     const cartPosition = cartIcon.getBoundingClientRect();
 
+    // Create flying product image
     const flyingImage = document.createElement("img");
+
     flyingImage.src = imageSrc;
     flyingImage.className = "flying-cart-product";
 
     document.body.appendChild(flyingImage);
 
-    flyingImage.style.left = "40%";
-    flyingImage.style.top = "40%";
-
-    const startPosition = flyingImage.getBoundingClientRect();
-
-    requestAnimationFrame(() => {
-        flyingImage.style.left =
-            (cartPosition.left + cartPosition.width / 2 - 32) + "px";
-        flyingImage.style.top =
-            (cartPosition.top + cartPosition.height / 2 - 32) + "px";
-        flyingImage.style.width = "10px";
-        flyingImage.style.height = "10px";
-        flyingImage.style.opacity = "0.3";
-        flyingImage.style.transform = "rotate(360deg)";
+    // Start exactly at the clicked product image
+    Object.assign(flyingImage.style, {
+        position: "fixed",
+        left: startPosition.left + "px",
+        top: startPosition.top + "px",
+        width: startPosition.width + "px",
+        height: startPosition.height + "px",
+        objectFit: "contain",
+        zIndex: "99999",
+        pointerEvents: "none",
+        transition: "left 1.2s ease, top 1.2s ease, width 1.2s ease, height 1.2s ease, opacity 1.2s ease, transform 1.2s ease"
     });
 
+    // Animate towards the cart
+    requestAnimationFrame(() => {
+
+        requestAnimationFrame(() => {
+
+            flyingImage.style.left =
+                (cartPosition.left + cartPosition.width / 2 - 15) + "px";
+
+            flyingImage.style.top =
+                (cartPosition.top + cartPosition.height / 2 - 15) + "px";
+
+            flyingImage.style.width = "30px";
+            flyingImage.style.height = "30px";
+            flyingImage.style.transform = "rotate(90deg)";
+            flyingImage.style.transform = "rotate(90deg)";
+
+        });
+
+    });
+
+    // Bounce cart icon
     cartIcon.classList.remove("cart-bounce");
+
     void cartIcon.offsetWidth;
+
     cartIcon.classList.add("cart-bounce");
 
-    setTimeout(() => flyingImage.remove(), 800);
+    setTimeout(() => {
+        flyingImage.remove();
+    }, 850);
 }
 // Create and update floating cart icon
 function updateMiniCartIcon() {

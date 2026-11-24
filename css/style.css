@@ -5427,3 +5427,43 @@ html:not([data-theme="dark"]) .empty-wishlist-icon {
     margin: 50px auto;
     box-sizing: border-box;
 }
+/* SMARTMOB - COLLAPSIBLE FILTER SIDEBAR */
+
+#filter-toggle-btn {
+    grid-column: 1 / -1;
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 20px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#filter-toggle-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+/* Hide filters when closed */
+.filter-sidebar.is-hidden {
+    display: none !important;
+}
+
+/* Give products full width when filters are hidden */
+.shop-layout.filters-collapsed {
+    grid-template-columns: minmax(0, 1fr) !important;
+}
+
+@media (max-width: 768px) {
+    #filter-toggle-btn {
+        margin-bottom: 12px;
+    }
+}

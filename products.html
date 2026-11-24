@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>All Mobiles - SmartMob</title>
+    <title>All Products - SmartMob</title>
 
     <link rel="stylesheet" href="css/style.css">
 
@@ -122,7 +122,7 @@
 
             <a href="index.html">Home</a>
 
-            <a href="products.html">Mobiles</a>
+            <a href="products.html">Products</a>
 
             <!-- PROFILE DROPDOWN -->
             <div class="profile-dropdown">
@@ -175,13 +175,24 @@
 
     <section class="shop-section">
 
-        <h1>Explore Our Mobiles</h1>
+        <h1>Explore Our Products</h1>
 
         <div class="shop-layout">
 
-            <!-- LEFT FILTER SIDEBAR -->
+    <!-- FILTER TOGGLE BUTTON -->
+    <button
+        type="button"
+        id="filter-toggle-btn"
+        aria-expanded="false"
+        aria-controls="filter-sidebar">
 
-            <aside class="filter-sidebar">
+        ☰ Filters
+
+    </button>
+
+    <!-- LEFT FILTER SIDEBAR -->
+
+            <aside class="filter-sidebar" id="filter-sidebar">
 
                 <h2>Filters</h2>
 
@@ -189,12 +200,12 @@
 
                 <div class="filter-group">
 
-                    <h3>Search Mobiles</h3>
+                    <h3>Search Products</h3>
 
                     <input
                         type="text"
                         id="search"
-                        placeholder="Search mobiles...">
+                        placeholder="Search products...">
 
                 </div>
 
@@ -303,7 +314,7 @@
 
                 <div class="products-heading">
 
-                    <h2>Available Smartphones</h2>
+                    <h2>Available Products</h2>
 
                 </div>
 
@@ -461,6 +472,46 @@
     <script src="js/profile-picture.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/mini-cart.js"></script>
+    <script>
+    // SMARTMOB - FILTER SIDEBAR TOGGLE
+
+    const filterToggleBtn =
+        document.getElementById("filter-toggle-btn");
+
+    const filterSidebar =
+        document.getElementById("filter-sidebar");
+
+    const shopLayout =
+        document.querySelector(".shop-layout");
+
+    if (filterToggleBtn && filterSidebar && shopLayout) {
+
+        // Hide filters when the page first loads
+        filterSidebar.classList.add("is-hidden");
+        shopLayout.classList.add("filters-collapsed");
+
+        filterToggleBtn.addEventListener("click", function () {
+
+            const isHidden =
+                filterSidebar.classList.toggle("is-hidden");
+
+            shopLayout.classList.toggle(
+                "filters-collapsed",
+                isHidden
+            );
+
+            filterToggleBtn.setAttribute(
+                "aria-expanded",
+                String(!isHidden)
+            );
+
+            filterToggleBtn.innerHTML = isHidden
+                ? "☰ Filters"
+                : "✕ Hide Filters";
+
+        });
+    }
+</script>
 
 </body>
 

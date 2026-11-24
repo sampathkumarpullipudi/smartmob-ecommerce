@@ -666,7 +666,10 @@ if (productList) {
 
         saveSmartMobCart(cart);
         // Animate product image flying to cart
-animateProductToCart(selectedProduct.image);
+const productImage = button.closest(".product-card")
+    ?.querySelector(".product-details-link img");
+
+animateProductToCart(selectedProduct.image, productImage);
 
         // Immediately update floating cart
         updateFloatingCart();

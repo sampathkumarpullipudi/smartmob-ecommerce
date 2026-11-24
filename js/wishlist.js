@@ -31,7 +31,7 @@ function displayWishlist() {
         </p>
 
         <a href="products.html" class="browse-mobiles-btn">
-            <span>Explore Mobiles</span>
+            <span>Browse Products</span>
             <span>→</span>
         </a>
 
@@ -48,7 +48,7 @@ return;
 
     // Display products
     wishlistItems.innerHTML = wishlist.map(mobile => `
-        <div class="product-card wishlist-card">
+        <div class="product-card wishlist-card" data-id="${Number(mobile.id)}">
 
             <!-- Wishlist Heart Icon -->
             <button
@@ -137,10 +137,18 @@ function addWishlistToCart(id) {
     // Update the floating cart icon and item count
     updateMiniCartIcon();
 
-    // Animate the product image into the cart
-    if (typeof animateProductToCart === "function") {
-        animateProductToCart(product.image);
-    }
+    // Animate the clicked Wishlist product image into the cart
+const wishlistCard = document.querySelector(
+    `.wishlist-card[data-id="${id}"]`
+);
+
+const productImage = wishlistCard?.querySelector(
+    ".product-details-link img"
+);
+
+if (typeof animateProductToCart === "function") {
+    animateProductToCart(product.image, productImage);
+}
 
 }
 
