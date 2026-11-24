@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support | SmartMob</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    
+<header>
+    <h2>SMARTMOB</h2>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+
+        <!-- Profile Picture Dropdown -->
+        <div class="profile-dropdown">
+
+            <button
+                type="button"
+                id="profile-menu-btn"
+                class="profile-menu-btn"
+                aria-label="Open profile menu"
+                aria-expanded="false">
+
+                <img
+                    id="header-profile-picture"
+                    src="https://i.pravatar.cc/100?img=12"
+                    alt="User Profile">
+            </button>
+
+            <div
+                class="profile-dropdown-menu"
+                id="profile-dropdown-menu">
+
+                <a href="profile.html">My Profile</a>
+                <a href="my-orders.html">My Orders</a>
+                <a href="wishlist.html">Wishlist</a>
+                <a href="cart.html">Cart</a>
+                <a href="admin-login.html">Admin</a>
+                <a href="help.html">Help & Support</a>
+                <a href="#" id="dropdown-logout">Logout</a>
+
+            </div>
+        </div>
+
+        <!-- Light/Dark Mode -->
+        <button id="theme-toggle" type="button"
+            aria-label="Switch theme"
+            title="Switch theme">
+            🌙
+        </button>
+
+    </nav>
+</header>
+
+
+    <section class="help-section">
+        <h1>How Can We Help You?</h1>
+        <p>We're here to help you with your SmartMob shopping experience.</p>
+
+        <div class="help-card">
+    <h2>Need Help? Chat With Us!</h2>
+    <p>Select your order and product so we can help you faster.</p>
+
+    <div class="support-form">
+
+        <label for="support-order">Select Your Order</label>
+        <select id="support-order">
+            <option value="">Choose an order</option>
+        </select>
+
+       <label>Select Products With Problems</label>
+
+<button
+    type="button"
+    id="support-product-toggle"
+    class="support-products-toggle"
+    aria-expanded="false">
+    Choose Products ▼
+</button>
+
+<div
+    id="support-product-list"
+    class="support-product-list"
+    hidden>
+    <p>Please select an order first.</p>
+</div>
+
+        <label for="support-issue">Describe Your Problem</label>
+        <textarea
+            id="support-issue"
+            rows="4"
+            placeholder="Example: I received a damaged product..."
+        ></textarea>
+
+        <a
+            href="#"
+            id="whatsapp-support-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="whatsapp-support-btn">
+            Chat With Us on WhatsApp
+        </a>
+
+    </div>
+
+    <p class="support-number">WhatsApp: +91 8919176160</p>
+</div>
+    </section>
+    <!-- SMARTMOB FAQ SECTION -->
+<section class="faq-section">
+
+    <h2>Frequently Asked Questions</h2>
+    <p>Find answers to common questions about SmartMob.</p>
+
+    <div class="faq-container">
+
+        <details class="faq-item">
+            <summary>How can I track my order?</summary>
+            <p>Visit My Orders from your profile to check your order status.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>How can I cancel my order?</summary>
+            <p>Visit My Orders and check whether your order can be cancelled.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>How can I return a product?</summary>
+            <p>Please contact our support team through WhatsApp for return assistance.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>How can I contact SmartMob?</summary>
+            <p>Click the WhatsApp support button above to contact us directly.</p>
+        </details>
+
+    </div>
+
+</section>
+
+    <footer>
+        <p>© 2026 SmartMob. All rights reserved.</p>
+    </footer>
+    <script src="js/profile-picture.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/support.js"></script>
+
+<script>
+(function () {
+    const profileMenuBtn = document.getElementById("profile-menu-btn");
+    const profileDropdownMenu = document.getElementById("profile-dropdown-menu");
+
+    if (profileMenuBtn && profileDropdownMenu) {
+        profileMenuBtn.addEventListener("click", function(event) {
+            event.stopPropagation();
+
+            const isOpen = profileDropdownMenu.classList.toggle("show");
+
+            profileMenuBtn.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        document.addEventListener("click", function(event) {
+            if (!event.target.closest(".profile-dropdown")) {
+                profileDropdownMenu.classList.remove("show");
+                profileMenuBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+    }
+
+    const dropdownLogout = document.getElementById("dropdown-logout");
+
+    if (dropdownLogout) {
+        dropdownLogout.addEventListener("click", function(event) {
+            event.preventDefault();
+            localStorage.removeItem("loggedInUser");
+            window.location.href = "login.html";
+        });
+    }
+})();
+</script>
+
+</body>
+</html>
+
+</body>
+</html>

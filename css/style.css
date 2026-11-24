@@ -5467,3 +5467,311 @@ html:not([data-theme="dark"]) .empty-wishlist-icon {
         margin-bottom: 12px;
     }
 }
+/* =================================
+   SMARTMOB HELP & SUPPORT PAGE
+================================= */
+
+.help-section {
+    min-height: 550px;
+    padding: 60px 20px;
+    text-align: center;
+    background: var(--background);
+}
+
+.help-section > h1 {
+    color: #123B70;
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.help-section > p {
+    color: var(--muted);
+    font-size: 17px;
+    margin-bottom: 40px;
+}
+
+.help-card {
+    max-width: 550px;
+    margin: auto;
+    padding: 40px 25px;
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.help-card h2 {
+    color: var(--text);
+    margin-bottom: 15px;
+}
+
+.help-card p {
+    color: var(--muted);
+    margin-bottom: 25px;
+}
+
+.whatsapp-support-btn {
+    display: inline-block;
+    padding: 15px 28px;
+    background: #25D366;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+.whatsapp-support-btn:hover {
+    background: #128C7E;
+    transform: translateY(-3px);
+}
+
+.help-card .support-number {
+    margin-top: 25px;
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    .help-section > h1 {
+        font-size: 27px;
+    }
+
+    .help-card {
+        padding: 30px 18px;
+    }
+
+    .whatsapp-support-btn {
+        width: 100%;
+        padding: 14px 10px;
+    }
+}
+/* =================================
+   SMARTMOB FAQ SECTION
+================================= */
+
+.faq-section {
+    padding: 50px 20px;
+    background: var(--background);
+    text-align: center;
+}
+
+.faq-section h2 {
+    color: #123B70;
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.faq-section > p {
+    color: var(--muted);
+    margin-bottom: 30px;
+}
+
+.faq-container {
+    max-width: 750px;
+    margin: auto;
+    text-align: left;
+}
+
+.faq-item {
+    background: var(--white);
+    margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.faq-item summary {
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.faq-item p {
+    color: var(--muted);
+    line-height: 1.6;
+    margin-top: 15px;
+}
+
+.faq-item[open] summary {
+    color: #2563eb;
+}
+
+@media (max-width: 600px) {
+    .faq-section h2 {
+        font-size: 24px;
+    }
+
+    .faq-item {
+        padding: 16px;
+    }
+}
+/* HELP & SUPPORT PAGE - DARK MODE FIX */
+
+html[data-theme="dark"] .help-section,
+html[data-theme="dark"] .faq-section {
+    background: #111827 !important;
+}
+
+html[data-theme="dark"] .help-section > h1,
+html[data-theme="dark"] .faq-section h2 {
+    color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .help-section > p,
+html[data-theme="dark"] .faq-section > p {
+    color: #d1d5db !important;
+}
+
+html[data-theme="dark"] .help-card,
+html[data-theme="dark"] .faq-item {
+    background: #1f2937 !important;
+    border: 1px solid #374151 !important;
+}
+
+html[data-theme="dark"] .help-card h2,
+html[data-theme="dark"] .help-card p,
+html[data-theme="dark"] .faq-item summary,
+html[data-theme="dark"] .faq-item p {
+    color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .faq-item[open] summary {
+    color: #60a5fa !important;
+}
+/* WHATSAPP ORDER SUPPORT FORM */
+
+.support-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+    margin-top: 25px;
+}
+
+.support-form label {
+    color: var(--text);
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.support-form select,
+.support-form textarea {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: var(--background);
+    color: var(--text);
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.support-form textarea {
+    resize: vertical;
+    font-family: inherit;
+}
+
+.support-form select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.support-form select:focus,
+.support-form textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.support-form .whatsapp-support-btn {
+    text-align: center;
+    margin-top: 12px;
+}
+
+html[data-theme="dark"] .support-form select,
+html[data-theme="dark"] .support-form textarea {
+    background: #111827;
+    color: #f9fafb;
+    border-color: #4b5563;
+}
+
+html[data-theme="dark"] .support-form label {
+    color: #f9fafb;
+}
+/* MULTIPLE PRODUCT SELECTION - SUPPORT PAGE */
+
+.support-product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.support-product-option {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: var(--background);
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500 !important;
+    margin: 0 !important;
+}
+
+.support-product-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    cursor: pointer;
+    accent-color: #2563eb;
+}
+
+.support-product-option span {
+    color: var(--text);
+    line-height: 1.5;
+}
+
+.support-product-option:has(input:checked) {
+    border-color: #2563eb;
+    background: rgba(37, 99, 235, 0.1);
+}
+
+html[data-theme="dark"] .support-product-option {
+    background: #111827;
+    border-color: #4b5563;
+}
+/* Keep product list hidden until dropdown is clicked */
+
+.support-product-list[hidden] {
+    display: none !important;
+}
+
+/* Style the product dropdown button */
+
+.support-products-toggle {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 8px 0 12px;
+    background: #111827;
+    color: #ffffff;
+    border: 1px solid #4b5563;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+}
+
+.support-products-toggle:hover {
+    border-color: #60a5fa;
+}
+
+html[data-theme="light"] .support-products-toggle {
+    background: #f9fafb;
+    color: #172554;
+    border-color: #d1d5db;
+}
