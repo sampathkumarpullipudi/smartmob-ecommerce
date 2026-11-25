@@ -782,25 +782,28 @@ if (productList) {
 
         if (existingProduct) {
 
-            // Remove from wishlist
+    // Remove from wishlist
+    wishlist = wishlist.filter(
+        item => item.id !== productId
+    );
 
-            wishlist = wishlist.filter(
-                item => item.id !== productId
-            );
+    button.innerHTML = "♡";
+    button.classList.remove("active");
 
-            button.innerHTML = "♡";
-            button.classList.remove("active");
+} else {
 
-        } else {
+    // Add to wishlist
+    wishlist.push(selectedProduct);
 
-            // Add to wishlist
+    button.innerHTML = "♥";
+    button.classList.add("active");
 
-            wishlist.push(selectedProduct);
+}
 
-            button.innerHTML = "♥";
-            button.classList.add("active");
-
-        }
+// Play heart animation
+button.classList.remove("heart-pop");
+void button.offsetWidth;
+button.classList.add("heart-pop");
 
 
         // Save wishlist

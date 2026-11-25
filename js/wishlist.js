@@ -52,13 +52,13 @@ return;
 
             <!-- Wishlist Heart Icon -->
             <button
-                class="wishlist-heart-icon"
-                type="button"
-                onclick="removeWishlist(${Number(mobile.id)})"
-                aria-label="Remove from wishlist"
-                title="Remove from wishlist">
-                ♥
-            </button>
+    class="wishlist-heart-icon"
+    type="button"
+    onclick="removeWishlist(${Number(mobile.id)}, this)"
+    aria-label="Remove from wishlist"
+    title="Remove from wishlist">
+    ♥
+</button>
 
             <!-- Clickable Product Image and Name -->
             <a href="product-details.html?id=${encodeURIComponent(mobile.id)}"
@@ -90,16 +90,26 @@ return;
 }
 
 // Remove product from wishlist
-function removeWishlist(id) {
-    let wishlist = getWishlist();
+function removeWishlist(id, button) {
 
-    wishlist = wishlist.filter(
-        mobile => Number(mobile.id) !== Number(id)
-    );
+    if (button) {
+        button.classList.add("heart-pop");
+        button.disabled = true;
+    }
 
-    saveSmartMobWishlist(wishlist);
+    setTimeout(() => {
 
-    displayWishlist();
+        let wishlist = getWishlist();
+
+        wishlist = wishlist.filter(
+            mobile => Number(mobile.id) !== Number(id)
+        );
+
+        saveSmartMobWishlist(wishlist);
+
+        displayWishlist();
+
+    }, 450);
 }
 
 // Add wishlist product to account-specific cart
